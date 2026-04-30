@@ -7,4 +7,8 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  base: '/', // Yeh ensure karta hai ki paths sahi se banein
+  build: {
+    outDir: 'dist', // Default yahi hota hai, par mention karna safe hai
+  }
 })
