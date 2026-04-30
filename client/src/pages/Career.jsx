@@ -1,27 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { MapPin, Briefcase, Clock, ChevronRight, Loader2 } from 'lucide-react';
+import { MapPin, Briefcase, Clock, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
 
 const Career = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // URL cleaning logic
-  const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, "");
-  const JOBS_URL = `${API_BASE}/jobs`;
+  // FIXED: Vercel par relative path hamesha stable rehta hai
+  const JOBS_URL = "/api/jobs";
+
+  const fetchJobs = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await axios.get(JOBS_URL);
+      
+      // Strict Check: Agar array nahi mila toh empty list rakhein
+      if (response.data && Array.isArray(response.data)) {
+        setJobs(response.data);
+      } else {
+        setJobs([]);
+      }
+    } catch (error) {
+      console.error("Error fetching careers:", error);
+      setError("Failed to load jobs. Please try again later.");
+      setJobs([]); 
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(JOBS_URL);
-        setJobs(response.data);
-      } catch (error) {
-        console.error("Error fetching careers:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchJobs();
   }, []);
 
@@ -48,7 +58,7 @@ const Career = () => {
               <h2 className="text-white font-bold uppercase tracking-widest text-sm mb-2">Open Positions</h2>
               <div className="h-1 w-12 bg-blue-600"></div>
             </div>
-            <span className="text-slate-600 font-mono text-sm tracking-widest">[{jobs.length} ROLES AVAILABLE]</span>
+            <span className="text-slate-600 font-mono text-sm tracking-widest">[{jobs?.length || 0} ROLES AVAILABLE]</span>
           </div>
 
           {loading ? (
@@ -56,14 +66,20 @@ const Career = () => {
               <Loader2 className="animate-spin text-blue-600" size={40} />
               <p className="text-slate-600 uppercase font-black tracking-widest text-xs">Loading Careers...</p>
             </div>
+          ) : error ? (
+            <div className="flex flex-col items-center justify-center py-20 gap-4 border border-red-500/20 rounded-[3rem] bg-red-500/5">
+              <AlertCircle className="text-red-500" size={32} />
+              <p className="text-red-500 font-bold uppercase tracking-widest text-xs">{error}</p>
+              <button onClick={fetchJobs} className="mt-4 text-blue-500 underline text-[10px] uppercase font-black">Retry Connection</button>
+            </div>
           ) : (
             <div className="grid gap-4">
-              {jobs.length === 0 ? (
+              {jobs?.length === 0 ? (
                 <div className="p-20 text-center border border-dashed border-slate-900 rounded-[3rem]">
                   <p className="text-slate-600 font-bold uppercase tracking-widest text-xs italic">Currently no active openings. Check back soon.</p>
                 </div>
               ) : (
-                jobs.map((job) => (
+                jobs?.map((job) => (
                   <div 
                     key={job._id}
                     className="group relative p-8 md:p-10 bg-slate-900/10 border border-slate-900 rounded-[2.5rem] hover:border-blue-600/40 transition-all duration-500 hover:bg-slate-900/20"
@@ -90,7 +106,6 @@ const Career = () => {
                       </button>
                     </div>
 
-                    {/* Expandable Description (Optional) */}
                     <div className="mt-8 pt-8 border-t border-white/5 text-slate-400 text-sm leading-relaxed max-w-4xl line-clamp-2 group-hover:line-clamp-none transition-all">
                       {job.desc}
                     </div>
@@ -102,7 +117,6 @@ const Career = () => {
         </div>
       </section>
 
-      {/* Footer Branding */}
       <footer className="py-20 text-center border-t border-white/5">
         <p className="text-[10px] font-black uppercase tracking-[0.5em] text-slate-700">
           Katara Group Of Companies • Career Portal 2026
