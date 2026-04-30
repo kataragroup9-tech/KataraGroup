@@ -3,10 +3,8 @@ import axios from 'axios';
 import { Trash2, PlusCircle, MapPin, Briefcase, RefreshCcw, Edit3, X, AlertCircle } from 'lucide-react';
 
 const Admin = () => {
-  // Use the env variable and clean any trailing slashes
-  const API_BASE = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api').replace(/\/$/, "");
-  // Since we used app.use('/api/jobs'), our full endpoint is:
-  const JOBS_URL = `${API_BASE}/jobs`;
+  // Vercel par relative path use karna sabse best hota hai
+  const JOBS_URL = "/api/jobs";
 
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,16 +18,28 @@ const Admin = () => {
   const fetchJobs = async () => {
     try {
       setLoading(true);
+      setErrorMsg(null);
       const response = await axios.get(JOBS_URL);
-      setJobs(response.data);
+      
+      // Strict Array Check: Agar response array nahi hai toh empty array set karein
+      if (response.data && Array.isArray(response.data)) {
+        setJobs(response.data);
+      } else {
+        setJobs([]);
+        console.error("Data received is not an array:", response.data);
+      }
     } catch (error) {
-      setErrorMsg("Connection Error: Server is not responding.");
+      console.error("Fetch error:", error);
+      setErrorMsg("Failed to load jobs. Please check if /api/jobs is working.");
+      setJobs([]); // Fallback to empty array to prevent .map() crash
     } finally {
       setLoading(false);
     }
   };
 
-  useEffect(() => { fetchJobs(); }, []);
+  useEffect(() => { 
+    fetchJobs(); 
+  }, []);
 
   const handleEditClick = (job) => {
     setEditingId(job._id);
@@ -52,7 +62,6 @@ const Admin = () => {
     e.preventDefault();
     setErrorMsg(null);
 
-    // Construct URL carefully
     const finalUrl = editingId ? `${JOBS_URL}/${editingId}` : JOBS_URL;
 
     try {
@@ -66,9 +75,8 @@ const Admin = () => {
       cancelEdit();
       fetchJobs();
     } catch (error) {
-      const status = error.response?.status || "Network Error";
-      const detail = error.response?.data?.message || error.message;
-      setErrorMsg(`Action Failed (${status}): ${detail}`);
+      const detail = error.response?.data?.message || "Server connection failed.";
+      setErrorMsg(`Action Failed: ${detail}`);
     }
   };
 
@@ -131,21 +139,29 @@ const Admin = () => {
 
           <div className="lg:col-span-8">
             <div className="space-y-4">
-              {jobs.map(job => (
-                <div key={job._id} className={`p-8 border rounded-[2rem] transition-all flex flex-col md:flex-row justify-between items-center gap-6 ${editingId === job._id ? 'border-orange-500/50 bg-orange-500/5' : 'border-slate-900 bg-slate-900/10'}`}>
-                  <div className="flex gap-6 items-center w-full">
-                    <div className="w-14 h-14 rounded-2xl bg-blue-600/10 text-blue-500 flex items-center justify-center font-black text-xl">{job.title.charAt(0)}</div>
-                    <div>
-                      <h3 className="text-xl font-black text-white uppercase">{job.title}</h3>
-                      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{job.location} • {job.type}</p>
+              {loading ? (
+                <div className="text-center py-20 uppercase tracking-tighter font-black text-slate-700 animate-pulse">Synchronizing Data...</div>
+              ) : jobs.length > 0 ? (
+                jobs.map(job => (
+                  <div key={job._id} className={`p-8 border rounded-[2rem] transition-all flex flex-col md:flex-row justify-between items-center gap-6 ${editingId === job._id ? 'border-orange-500/50 bg-orange-500/5' : 'border-slate-900 bg-slate-900/10'}`}>
+                    <div className="flex gap-6 items-center w-full">
+                      <div className="w-14 h-14 rounded-2xl bg-blue-600/10 text-blue-500 flex items-center justify-center font-black text-xl">{job.title?.charAt(0) || 'J'}</div>
+                      <div>
+                        <h3 className="text-xl font-black text-white uppercase">{job.title}</h3>
+                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{job.location} • {job.type}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 w-full md:w-auto">
+                      <button onClick={() => handleEditClick(job)} className="p-4 bg-blue-500/10 text-blue-500 rounded-2xl hover:bg-blue-500 hover:text-white"><Edit3 size={18}/></button>
+                      <button onClick={() => deleteJob(job._id)} className="p-4 bg-red-500/10 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white"><Trash2 size={18}/></button>
                     </div>
                   </div>
-                  <div className="flex gap-3 w-full md:w-auto">
-                    <button onClick={() => handleEditClick(job)} className="p-4 bg-blue-500/10 text-blue-500 rounded-2xl hover:bg-blue-500 hover:text-white"><Edit3 size={18}/></button>
-                    <button onClick={() => deleteJob(job._id)} className="p-4 bg-red-500/10 text-red-500 rounded-2xl hover:bg-red-500 hover:text-white"><Trash2 size={18}/></button>
-                  </div>
+                ))
+              ) : (
+                <div className="text-center py-20 border border-dashed border-slate-800 rounded-[2rem]">
+                  <p className="text-slate-500 font-bold uppercase tracking-widest text-xs">No active positions found.</p>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         </div>
