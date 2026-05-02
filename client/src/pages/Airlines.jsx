@@ -148,7 +148,7 @@ const Airways = () => {
 
       {/* --- FOOTER --- */}
       <footer className="py-20 border-t border-white/5 text-center bg-black">
-        <h2 className="text-4xl font-serif italic mb-4 text-white uppercase tracking-tighter">Katara Airways Corporation</h2>
+        <h2 className="text-4xl font-serif italic mb-4 text-white uppercase tracking-tighter">Katara Airways </h2>
         <p className="text-blue-500 text-sm tracking-[0.5em] uppercase font-black">Skyward Elegance Since 1967</p>
       </footer>
     </div>
