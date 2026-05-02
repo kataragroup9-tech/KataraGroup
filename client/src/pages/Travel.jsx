@@ -157,7 +157,7 @@ const KataraAura = () => {
 
       {/* --- FOOTER --- */}
       <footer className="py-20 border-t border-slate-900 text-center">
-        <h2 className="text-4xl font-black italic mb-4 text-white uppercase tracking-tighter">Katara Travel Corporation</h2>
+        <h2 className="text-4xl font-black italic mb-4 text-white uppercase tracking-tighter">K Y Holidays Private Limited</h2>
         <p className="text-blue-600 text-sm tracking-[0.5em] uppercase font-black">Adventure is Calling Since 2016</p>
       </footer>
     </div>
