@@ -203,7 +203,7 @@ const propertyList = [
         </div>
       </section>
 <footer className="py-20 border-t border-white/5 text-center bg-black">
-        <h2 className="text-4xl font-serif italic mb-4 text-white">Katara Real Estate Corporation </h2>
+        <h2 className="text-4xl font-serif italic mb-4 text-white">Katara Real Estate</h2>
         <p className="text-gray-600 text-sm tracking-[0.5em] uppercase">Skyward Elegance Since 1967</p>
       </footer>
     
