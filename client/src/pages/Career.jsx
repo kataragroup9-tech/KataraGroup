@@ -7,7 +7,7 @@ const Career = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // FIXED: Vercel par relative path hamesha stable rehta hai
+  // API URL: Development aur Production dono ke liye stable relative path
   const JOBS_URL = "/api/jobs";
 
   const fetchJobs = async () => {
@@ -34,6 +34,14 @@ const Career = () => {
   useEffect(() => {
     fetchJobs();
   }, []);
+
+  // WhatsApp Apply Logic
+  const handleApply = (jobTitle) => {
+    const phoneNumber = "919167844286"; // Formatted for WhatsApp URL
+    const message = `Hi, I am interested in the ${jobTitle} position at Katara Group. Please let me know the next steps.`;
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  };
 
   return (
     <div className="bg-[#05070a] min-h-screen text-slate-300 font-sans selection:bg-blue-600 selection:text-white">
@@ -101,7 +109,10 @@ const Career = () => {
                         </div>
                       </div>
 
-                      <button className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl shadow-black/20">
+                      <button 
+                        onClick={() => handleApply(job.title)}
+                        className="flex items-center justify-center gap-3 px-8 py-4 bg-white text-black rounded-2xl font-black uppercase text-[10px] tracking-widest hover:bg-blue-600 hover:text-white transition-all shadow-xl shadow-black/20"
+                      >
                         Apply Now <ChevronRight size={16} />
                       </button>
                     </div>
