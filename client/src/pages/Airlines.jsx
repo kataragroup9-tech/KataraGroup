@@ -146,10 +146,33 @@ const Airways = () => {
         </div>
       </section>
 
-      {/* --- FOOTER --- */}
-      <footer className="py-20 border-t border-white/5 text-center bg-black">
-        <h2 className="text-4xl font-serif italic mb-4 text-white uppercase tracking-tighter">Katara Airways </h2>
-        <p className="text-blue-500 text-sm tracking-[0.5em] uppercase font-black">Skyward Elegance Since 1967</p>
+     {/* --- FOOTER --- */}
+      <footer className="py-20 border-t border-white/5 bg-black">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center">
+          
+          {/* Logo and Title Container */}
+          <div className="flex flex-col md:flex-row items-center gap-6 mb-4">
+            {/* Logo Image */}
+            <img 
+              src="/assets/airlines-logo.png" 
+              alt="Katara Airways Logo" 
+              className="h-16 w-auto object-contain brightness-0 invert" // 'invert' ensures visibility on black background
+            />
+            
+            {/* Text Content */}
+            <div className="text-center md:text-left">
+              <h2 className="text-4xl font-serif italic text-white uppercase tracking-tighter leading-none">
+                Katara Airways
+              </h2>
+              <p className="text-blue-500 text-[10px] md:text-sm tracking-[0.4em] md:tracking-[0.5em] uppercase font-black mt-2">
+                Skyward Elegance Since 1967
+              </p>
+            </div>
+          </div>
+
+          {/* Optional: Simple Divider or Copyright */}
+          <div className="w-full max-w-xs h-[1px] bg-gradient-to-r from-transparent via-slate-800 to-transparent mt-8"></div>
+        </div>
       </footer>
     </div>
   );
