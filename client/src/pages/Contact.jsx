@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, MapPin, Mail, Phone, ArrowRight, ShieldCheck, Globe } from 'lucide-react';
+import { Send, MapPin, Mail, Phone, ArrowRight, ShieldCheck, Globe, MessageCircle } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,8 +12,16 @@ const Contact = () => {
   const [status, setStatus] = useState({ type: '', msg: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const CONTACT_NUMBER = "+91 73740 04111";
+  const WHATSAPP_NUMBER = "917374004111"; // Formatted for URL
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleWhatsAppChat = () => {
+    const msg = encodeURIComponent("Hi Katara Group, I would like to inquire about your services.");
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
   };
 
   const handleSubmit = async (e) => {
@@ -21,7 +29,6 @@ const Contact = () => {
     setIsSubmitting(true);
     setStatus({ type: '', msg: '' });
 
-    // Client-side validation check
     if (!formData.name || !formData.email || !formData.message) {
       setStatus({ type: 'error', msg: 'Please fill all required fields.' });
       setIsSubmitting(false);
@@ -29,12 +36,8 @@ const Contact = () => {
     }
 
     try {
-      // Yahan aap apna backend API call add kar sakte hain
-      // console.log("Submitting Data:", formData);
-      
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 1500));
-      
       setStatus({ type: 'success', msg: 'Message sent successfully! Our team will contact you.' });
       setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
     } catch (err) {
@@ -62,11 +65,18 @@ const Contact = () => {
           
           {/* Info Side (4 Columns) */}
           <div className="lg:col-span-4 space-y-10">
-            <div className="p-8 bg-blue-600 rounded-[2.5rem] text-white relative overflow-hidden group">
-              <h3 className="text-xs font-black uppercase tracking-[0.3em] mb-6 opacity-80">Direct Lines</h3>
+            {/* Clickable Contact Card */}
+            <div 
+              onClick={handleWhatsAppChat}
+              className="p-8 bg-blue-600 rounded-[2.5rem] text-white relative overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-500"
+            >
+              <h3 className="text-xs font-black uppercase tracking-[0.3em] mb-6 opacity-80">Direct Lines & WhatsApp</h3>
               <div className="space-y-4 relative z-10">
-                <p className="text-2xl font-bold flex items-center gap-3"><Phone size={20}/> +91 73740 04111</p>
+                <p className="text-2xl font-bold flex items-center gap-3"><Phone size={20}/> {CONTACT_NUMBER}</p>
                 <p className="text-lg font-medium opacity-90 break-all flex items-center gap-3"><Mail size={18}/> kyholidays2016@gmail.com</p>
+              </div>
+              <div className="mt-6 flex items-center gap-2 text-[10px] font-black uppercase tracking-widest bg-black/20 w-fit px-4 py-2 rounded-full">
+                <MessageCircle size={14} /> Chat on WhatsApp
               </div>
               <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
             </div>
@@ -126,12 +136,12 @@ const Contact = () => {
                   className="w-full bg-black/40 border border-slate-800 rounded-2xl p-5 text-white outline-none focus:border-blue-600 transition-all font-bold appearance-none cursor-pointer"
                 >
                   <option value="General Inquiry">General Inquiry</option>
-                  <option value="Business Partnership">Airlines</option>
-                  <option value="Career/HR">Travel</option>
-                  <option value="Logistics Support">Shipping</option>
-                   <option value="General Inquiry">Real Estate</option>
-                  <option value="Business Partnership">Tea</option>
-                  <option value="Career/HR">Careers</option>
+                  <option value="Airlines">Airlines</option>
+                  <option value="Travel">Travel</option>
+                  <option value="Shipping">Shipping</option>
+                  <option value="Real Estate">Real Estate</option>
+                  <option value="Tea">Tea</option>
+                  <option value="Careers">Careers</option>
                 </select>
               </div>
 
@@ -144,13 +154,23 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              <button 
-                disabled={isSubmitting}
-                className={`w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] transition-all flex items-center justify-center gap-4 ${isSubmitting ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-white hover:text-blue-600 shadow-2xl shadow-blue-900/20'}`}
-              >
-                {isSubmitting ? 'Transmitting...' : 'Submit Transmission'}
-                {!isSubmitting && <Send size={14} />}
-              </button>
+              <div className="flex flex-col gap-4">
+                <button 
+                  disabled={isSubmitting}
+                  className={`w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] transition-all flex items-center justify-center gap-4 ${isSubmitting ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-white hover:text-blue-600 shadow-2xl shadow-blue-900/20'}`}
+                >
+                  {isSubmitting ? 'Transmitting...' : 'Submit Transmission'}
+                  {!isSubmitting && <Send size={14} />}
+                </button>
+
+                <button 
+                  type="button"
+                  onClick={handleWhatsAppChat}
+                  className="w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] border border-blue-600/30 text-blue-500 hover:bg-blue-600/10 transition-all flex items-center justify-center gap-4"
+                >
+                  Quick Chat on WhatsApp <MessageCircle size={14} />
+                </button>
+              </div>
             </form>
           </div>
         </div>
