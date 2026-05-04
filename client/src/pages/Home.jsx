@@ -15,31 +15,31 @@ const Home = () => {
     title: 'Katara Airlines', 
     desc: 'SKY IS NOT THE LIMIT.', 
     tagline: 'Aviation Excellence',
-    logo: process.env.PUBLIC_URL + '/assets/airlines-logo.png'
+    logo:'/assets/airlines-logo.png'
   },
   { 
     title: 'Katara Shipping Corp', 
     desc: 'DEPTH IS NOT THE LIMIT.', 
     tagline: 'Global Logistics',
-    logo: process.env.PUBLIC_URL + '/assets/shipping-logo.png'
+    logo:'/assets/shipping-logo.png'
   },
   { 
     title: 'Katara Real Estate', 
     desc: 'FOUNDATION WITHOUT LIMITS.', 
     tagline: 'Luxury Living',
-    logo: process.env.PUBLIC_URL + '/assets/realestate-logo.png'
+    logo:'/assets/realestate-logo.png'
   },
   { 
     title: 'Katara Tea Corporation', 
     desc: 'PURITY WITHOUT COMPROMISE.', 
     tagline: 'Premium FMCG',
-    logo: process.env.PUBLIC_URL + '/assets/tea-logo.png'
+    logo:'/assets/tea-logo.png'
   },
   { 
     title: 'K Y HOLIDAYS PVT LTD', 
     desc: 'JOURNEYS BEYOND BOUNDARIES.', 
     tagline: 'Bespoke Travel',
-    logo: process.env.PUBLIC_URL + '/assets/holidays-logo.png'
+    logo:'/assets/holidays-logo.png'
   },
 ];
 
