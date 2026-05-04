@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Send, MapPin, Mail, Phone, ArrowRight, ShieldCheck, Globe, MessageCircle } from 'lucide-react';
+import { MapPin, Mail, Phone, Globe, MessageCircle } from 'lucide-react';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -17,15 +17,13 @@ const Contact = () => {
   };
 
   const handleWhatsAppSubmit = (e) => {
-    e.preventDefault(); // Form reload rokne ke liye
+    e.preventDefault();
 
-    // Validation: Check if fields are filled
     if (!formData.name || !formData.message) {
       alert("Please fill in your name and message.");
       return;
     }
 
-    // Message draft karna details ke saath
     const text = `*New Inquiry via Website*\n\n` +
                  `*Name:* ${formData.name}\n` +
                  `*Email:* ${formData.email || 'Not provided'}\n` +
@@ -134,7 +132,7 @@ const Contact = () => {
                 ></textarea>
               </div>
 
-              {/* Combined Submit Button as WhatsApp Chat */}
+              {/* ONLY ONE BUTTON: This triggers WhatsApp */}
               <button 
                 type="submit"
                 className="w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] bg-blue-600 text-white hover:bg-white hover:text-blue-600 shadow-2xl shadow-blue-900/20 transition-all flex items-center justify-center gap-4"
