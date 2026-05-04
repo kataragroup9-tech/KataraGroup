@@ -10,13 +10,38 @@ const Home = () => {
     { label: 'Industrial Partners', value: '250+' },
   ];
 
-  const companySegments = [
-    { title: 'Katara Airlines', desc: 'SKY IS NOT THE LIMIT.', tagline: 'Aviation Excellence' },
-    { title: 'Katara Shipping Corp', desc: 'DEPTH IS NOT THE LIMIT.', tagline: 'Global Logistics' },
-    { title: 'Katara Real Estate', desc: 'FOUNDATION WITHOUT LIMITS.', tagline: 'Luxury Living' },
-    { title: 'Katara Tea Corporation', desc: 'PURITY WITHOUT COMPROMISE.', tagline: 'Premium FMCG' },
-     { title: 'K Y HOLIDAYS PVT LTD', desc: 'JOURNEYS BEYOND BOUNDARIES.', tagline: 'Bespoke Travel' },
-  ];
+ const companySegments = [
+  { 
+    title: 'Katara Airlines', 
+    desc: 'SKY IS NOT THE LIMIT.', 
+    tagline: 'Aviation Excellence',
+    logo: '/assets/airlines-logo.png' // Apne sahi file name se replace karein
+  },
+  { 
+    title: 'Katara Shipping Corp', 
+    desc: 'DEPTH IS NOT THE LIMIT.', 
+    tagline: 'Global Logistics',
+    logo: '/assets/shipping-logo.png'
+  },
+  { 
+    title: 'Katara Real Estate', 
+    desc: 'FOUNDATION WITHOUT LIMITS.', 
+    tagline: 'Luxury Living',
+    logo: '/assets/realestate-logo.png'
+  },
+  { 
+    title: 'Katara Tea Corporation', 
+    desc: 'PURITY WITHOUT COMPROMISE.', 
+    tagline: 'Premium FMCG',
+    logo: '/assets/tea-logo.png'
+  },
+  { 
+    title: 'K Y HOLIDAYS PVT LTD', 
+    desc: 'JOURNEYS BEYOND BOUNDARIES.', 
+    tagline: 'Bespoke Travel',
+    logo: '/assets/holidays-logo.png'
+  },
+];
 
   // State for the Airlines section tabs
   const [activeFlightTab, setActiveFlightTab] = useState('round-trip');
@@ -86,49 +111,49 @@ const Home = () => {
   </div>
 </section>
       {/* --- PROCESS SECTION --- */}
-   <section className="py-32 px-6 w-full bg-[#0A0A0B] text-[#E4E4E7] overflow-hidden relative border-t border-[#232326]">
-  {/* Soft Background Glow - Electric Indigo Tint */}
-  <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#6366F1]/5 rounded-full blur-[150px]"></div>
-  <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#6366F1]/5 rounded-full blur-[150px]"></div>
-  
-  <div className="max-w-7xl mx-auto text-center relative z-10">
-    <h2 className="text-5xl md:text-8xl font-black mb-24 tracking-tighter leading-none uppercase text-[#E4E4E7]">
-      Our <span className="text-[#6366F1] italic font-serif">Katara Group</span> 
-    </h2>
+  <section className="py-32 px-6 w-full bg-[#0A0A0B] text-[#E4E4E7] overflow-hidden relative border-t border-[#232326]">
+      {/* Soft Background Glow */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#6366F1]/5 rounded-full blur-[150px]"></div>
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-[#6366F1]/5 rounded-full blur-[150px]"></div>
+      
+      <div className="max-w-7xl mx-auto text-center relative z-10">
+        <h2 className="text-5xl md:text-8xl font-black mb-24 tracking-tighter leading-none uppercase text-[#E4E4E7]">
+          Our <span className="text-[#6366F1] italic font-serif">Katara Group</span> 
+        </h2>
 
-    {/* Grid set to 3 columns for desktop */}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 relative">
-      {companySegments.map((step, i) => (
-        <div 
-          key={i} 
-          className="relative group p-10 bg-[#161618] rounded-[3.5rem] border border-[#232326] hover:border-[#6366F1]/50 transition-all duration-500 text-left shadow-2xl"
-        >
-          {/* Circular Icon/Index - Electric Indigo Accent */}
-          <div className="w-20 h-20 bg-[#6366F1]/10 text-[#6366F1] rounded-3xl flex items-center justify-center text-3xl font-black mb-8 border border-[#6366F1]/20 group-hover:bg-[#6366F1] group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(99,102,241,0.1)] group-hover:shadow-[0_0_30px_rgba(99,102,241,0.4)]">
-            0{i + 1}
-          </div>
-          
-          <h4 className="text-3xl font-black mb-2 uppercase tracking-tighter group-hover:text-[#6366F1] transition-colors">
-            {step.title}
-          </h4>
-          
-          <p className="text-[#6366F1] text-[10px] font-black uppercase tracking-[0.3em] mb-6 opacity-80">
-            {step.tagline}
-          </p>
-          
-          <p className="text-[#A1A1AA] text-lg font-medium leading-relaxed group-hover:text-[#E4E4E7] transition-colors">
-            {step.desc}
-          </p>
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 relative">
+          {companySegments.map((step, i) => (
+            <div 
+              key={i} 
+              className="relative group p-10 bg-[#161618] rounded-[3.5rem] border border-[#232326] hover:border-[#6366F1]/50 transition-all duration-500 text-left shadow-2xl"
+            >
+              {/* Updated: Number "01" ki jagah yahan step.icon render ho raha hai */}
+              <div className="w-20 h-20 bg-[#6366F1]/10 text-[#6366F1] rounded-3xl flex items-center justify-center mb-8 border border-[#6366F1]/20 group-hover:bg-[#6366F1] group-hover:text-white transition-all duration-500 shadow-[0_0_30px_rgba(99,102,241,0.1)] group-hover:shadow-[0_0_30px_rgba(99,102,241,0.4)]">
+                {step.icon}
+              </div>
+              
+              <h4 className="text-3xl font-black mb-2 uppercase tracking-tighter group-hover:text-[#6366F1] transition-colors">
+                {step.title}
+              </h4>
+              
+              <p className="text-[#6366F1] text-[10px] font-black uppercase tracking-[0.3em] mb-6 opacity-80">
+                {step.tagline}
+              </p>
+              
+              <p className="text-[#A1A1AA] text-lg font-medium leading-relaxed group-hover:text-[#E4E4E7] transition-colors">
+                {step.desc}
+              </p>
 
-          {/* Decorative line color updated to Dark Steel */}
-          {i < 2 && (
-            <div className="hidden lg:block absolute top-1/2 -right-5 w-10 h-[1px] bg-[#232326]"></div>
-          )}
+              {/* Decorative line color updated to Dark Steel */}
+              {i < 2 && (
+                <div className="hidden lg:block absolute top-1/2 -right-5 w-10 h-[1px] bg-[#232326]"></div>
+              )}
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+      </div>
+    </section>
 {/* --- AIRLINE & AVIATION SECTION --- */}
 <section className="relative py-32 px-6 md:px-16 bg-[#F8FAFC] overflow-hidden w-full font-sans border-t border-slate-200">
   {/* Subtle Decorative Element */}
