@@ -9,9 +9,6 @@ const Contact = () => {
     message: ''
   });
 
-  const [status, setStatus] = useState({ type: '', msg: '' });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
   const CONTACT_NUMBER = "+91 73740 04111";
   const WHATSAPP_NUMBER = "917374004111"; // Formatted for URL
 
@@ -19,32 +16,24 @@ const Contact = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleWhatsAppChat = () => {
-    const msg = encodeURIComponent("Hi Katara Group, I would like to inquire about your services.");
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`, '_blank');
-  };
+  const handleWhatsAppSubmit = (e) => {
+    e.preventDefault(); // Form reload rokne ke liye
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setStatus({ type: '', msg: '' });
-
-    if (!formData.name || !formData.email || !formData.message) {
-      setStatus({ type: 'error', msg: 'Please fill all required fields.' });
-      setIsSubmitting(false);
+    // Validation: Check if fields are filled
+    if (!formData.name || !formData.message) {
+      alert("Please fill in your name and message.");
       return;
     }
 
-    try {
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setStatus({ type: 'success', msg: 'Message sent successfully! Our team will contact you.' });
-      setFormData({ name: '', email: '', subject: 'General Inquiry', message: '' });
-    } catch (err) {
-      setStatus({ type: 'error', msg: 'Something went wrong. Please try again.' });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Message draft karna details ke saath
+    const text = `*New Inquiry via Website*\n\n` +
+                 `*Name:* ${formData.name}\n` +
+                 `*Email:* ${formData.email || 'Not provided'}\n` +
+                 `*Subject:* ${formData.subject}\n` +
+                 `*Message:* ${formData.message}`;
+
+    const encodedMsg = encodeURIComponent(text);
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`, '_blank');
   };
 
   return (
@@ -63,11 +52,10 @@ const Contact = () => {
 
         <div className="grid lg:grid-cols-12 gap-12">
           
-          {/* Info Side (4 Columns) */}
+          {/* Info Side */}
           <div className="lg:col-span-4 space-y-10">
-            {/* Clickable Contact Card */}
             <div 
-              onClick={handleWhatsAppChat}
+              onClick={() => window.open(`https://wa.me/${WHATSAPP_NUMBER}`, '_blank')}
               className="p-8 bg-blue-600 rounded-[2.5rem] text-white relative overflow-hidden group cursor-pointer hover:scale-[1.02] transition-transform duration-500"
             >
               <h3 className="text-xs font-black uppercase tracking-[0.3em] mb-6 opacity-80">Direct Lines & WhatsApp</h3>
@@ -99,28 +87,20 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Form Side (8 Columns) */}
+          {/* Form Side */}
           <div className="lg:col-span-8 bg-slate-900/20 border border-slate-800 p-8 md:p-12 rounded-[3rem] backdrop-blur-sm">
-            <form onSubmit={handleSubmit} className="space-y-8">
-              
-              {status.msg && (
-                <div className={`p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest flex items-center gap-3 ${status.type === 'success' ? 'bg-green-500/10 text-green-500 border border-green-500/20' : 'bg-red-500/10 text-red-500 border border-red-500/20'}`}>
-                  {status.type === 'success' ? <ShieldCheck size={16}/> : <ArrowRight size={16}/>}
-                  {status.msg}
-                </div>
-              )}
-
+            <form onSubmit={handleWhatsAppSubmit} className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Your Name *</label>
                   <input 
-                    name="name" value={formData.name} onChange={handleChange}
+                    name="name" required value={formData.name} onChange={handleChange}
                     className="w-full bg-black/40 border border-slate-800 rounded-2xl p-5 text-white outline-none focus:border-blue-600 transition-all font-bold placeholder:text-slate-700" 
                     placeholder="E.g. Vivek Katara" 
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Email Address *</label>
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Email Address</label>
                   <input 
                     name="email" type="email" value={formData.email} onChange={handleChange}
                     className="w-full bg-black/40 border border-slate-800 rounded-2xl p-5 text-white outline-none focus:border-blue-600 transition-all font-bold placeholder:text-slate-700" 
@@ -148,21 +128,19 @@ const Contact = () => {
               <div className="space-y-2">
                 <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-2">Message *</label>
                 <textarea 
-                  name="message" value={formData.message} onChange={handleChange} rows="5"
+                  name="message" required value={formData.message} onChange={handleChange} rows="5"
                   className="w-full bg-black/40 border border-slate-800 rounded-3xl p-6 text-white outline-none focus:border-blue-600 transition-all font-bold resize-none placeholder:text-slate-700" 
                   placeholder="How can we assist you?"
                 ></textarea>
               </div>
 
-              <div className="flex flex-col gap-4">
-                <button 
-                  type="button"
-                  onClick={handleWhatsAppChat}
-                  className="w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] border border-blue-600/30 text-blue-500 hover:bg-blue-600/10 transition-all flex items-center justify-center gap-4"
-                >
-                  Quick Chat on WhatsApp <MessageCircle size={14} />
-                </button>
-              </div>
+              {/* Combined Submit Button as WhatsApp Chat */}
+              <button 
+                type="submit"
+                className="w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] bg-blue-600 text-white hover:bg-white hover:text-blue-600 shadow-2xl shadow-blue-900/20 transition-all flex items-center justify-center gap-4"
+              >
+                Send Message via WhatsApp <MessageCircle size={14} />
+              </button>
             </form>
           </div>
         </div>
