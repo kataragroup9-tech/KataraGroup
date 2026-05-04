@@ -156,14 +156,6 @@ const Contact = () => {
 
               <div className="flex flex-col gap-4">
                 <button 
-                  disabled={isSubmitting}
-                  className={`w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] transition-all flex items-center justify-center gap-4 ${isSubmitting ? 'bg-slate-800 text-slate-500 cursor-not-allowed' : 'bg-blue-600 text-white hover:bg-white hover:text-blue-600 shadow-2xl shadow-blue-900/20'}`}
-                >
-                  {isSubmitting ? 'Transmitting...' : 'Submit Transmission'}
-                  {!isSubmitting && <Send size={14} />}
-                </button>
-
-                <button 
                   type="button"
                   onClick={handleWhatsAppChat}
                   className="w-full py-6 rounded-2xl font-black uppercase tracking-[0.4em] text-[10px] border border-blue-600/30 text-blue-500 hover:bg-blue-600/10 transition-all flex items-center justify-center gap-4"
